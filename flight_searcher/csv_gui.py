@@ -3,11 +3,6 @@ from tkinter import ttk
 import csv
 from flight_search import FlightSearch
 
-entry_list = []
-row_id = ''
-queries = 0
-avg_price = ''
-
 def _save_to_csv(city, iata_code, desired_price, average, queries):
     with open("flight_data.csv", "a", newline='') as f:
         writer = csv.writer(f)
@@ -42,8 +37,6 @@ def update_csv(avg_price, queries):
             writer = csv.writer(f)
             writer.writerows(city_flight_data)
     # reset values
-    
-    
     city_entry.delete(0, tk.END)
     iata_value.delete(0, tk.END)
     price_entry.delete(0, tk.END)
@@ -94,70 +87,75 @@ def edit_row(event):
     price_entry.insert(0, selection_desired_price)
     iata_value.insert(0, selection_iata)
 
+if __name__ == "__main__":
+    entry_list = []
+    row_id = ''
+    queries = 0
+    avg_price = ''
 
-root = tk.Tk()
-frame_home = tk.Frame(root)
-frame_home.grid(row=0, column=0)
-# frame_home.title("Display CSV Data")
+    root = tk.Tk()
+    frame_home = tk.Frame(root)
+    frame_home.grid(row=0, column=0)
+    # frame_home.title("Display CSV Data")
 
-frame_display = tk.Frame(root)
-frame_display.grid(row=0, column=0)
+    frame_display = tk.Frame(root)
+    frame_display.grid(row=0, column=0)
 
-tree = ttk.Treeview(frame_display, columns=("col0","col1", "col2", "col3","col4", "col5"), show="headings")
-tree.heading("col0", text="ID")
-tree.heading("col1", text="City")
-tree.heading("col2", text="IATA Code")
-tree.heading("col3", text="Desired Price")
-tree.heading("col4", text="average")
-tree.heading("col5", text="queries")
+    tree = ttk.Treeview(frame_display, columns=("col0","col1", "col2", "col3","col4", "col5"), show="headings")
+    tree.heading("col0", text="ID")
+    tree.heading("col1", text="City")
+    tree.heading("col2", text="IATA Code")
+    tree.heading("col3", text="Desired Price")
+    tree.heading("col4", text="average")
+    tree.heading("col5", text="queries")
 
-tree.column("col0",width=30, stretch=False, anchor="center")
-tree.column("col1",width=150, stretch=False)
-tree.column("col2",width=100, stretch=False, anchor="center")
-tree.column("col3",width=100, stretch=False, anchor="center")
-tree.column("col4",width=100, stretch=False, anchor="center")
-tree.column("col5",width=0, stretch=False, anchor="center")
-# tree.pack(fill='both', expand=True)
-tree.grid(row=1, column=0)
+    tree.column("col0",width=30, stretch=False, anchor="center")
+    tree.column("col1",width=150, stretch=False)
+    tree.column("col2",width=100, stretch=False, anchor="center")
+    tree.column("col3",width=100, stretch=False, anchor="center")
+    tree.column("col4",width=100, stretch=False, anchor="center")
+    tree.column("col5",width=0, stretch=False, anchor="center")
+    # tree.pack(fill='both', expand=True)
+    tree.grid(row=1, column=0)
 
-tree.bind("<Double-1>", edit_row)
+    tree.bind("<Double-1>", edit_row)
 
 
-display_button = tk.Button(frame_home, text="Display Rows", command=display_rows)
-display_button.grid(row=0, column=0)
+    display_button = tk.Button(frame_home, text="Display Rows", command=display_rows)
+    display_button.grid(row=0, column=0)
 
-city_label = tk.Label(frame_home, text="City:")
-city_label.grid(row=1, column=0)
+    city_label = tk.Label(frame_home, text="City:")
+    city_label.grid(row=1, column=0)
 
-city_entry = tk.Entry(frame_home)
+    city_entry = tk.Entry(frame_home)
 
-city_entry = tk.Entry(frame_home)
-city_entry.grid(row=1, column=1)
-entry_list.append(city_entry)
+    city_entry = tk.Entry(frame_home)
+    city_entry.grid(row=1, column=1)
+    entry_list.append(city_entry)
 
-iata_label = tk.Label(frame_home, text="IATA Code:")
-iata_label.grid(row=2, column=0)
+    iata_label = tk.Label(frame_home, text="IATA Code:")
+    iata_label.grid(row=2, column=0)
 
-iata_value = tk.Entry(frame_home)
-iata_value.grid(row=2, column=1)
-entry_list.append(iata_value)
+    iata_value = tk.Entry(frame_home)
+    iata_value.grid(row=2, column=1)
+    entry_list.append(iata_value)
 
-# iata_button = tk.Button(root, text="Get IATA", command=get_iata_code)
-# iata_button.grid(row=2, column=0)
+    # iata_button = tk.Button(root, text="Get IATA", command=get_iata_code)
+    # iata_button.grid(row=2, column=0)
 
-price_label = tk.Label(frame_home, text="Desired Price:")
-price_label.grid(row=4, column=0)
+    price_label = tk.Label(frame_home, text="Desired Price:")
+    price_label.grid(row=4, column=0)
 
-price_entry = tk.Entry(frame_home)
-price_entry.grid(row=4, column=1)
-entry_list.append(price_entry)
+    price_entry = tk.Entry(frame_home)
+    price_entry.grid(row=4, column=1)
+    entry_list.append(price_entry)
 
-save_button = tk.Button(frame_home, text="Save", command=lambda: update_csv(avg_price,queries))
-save_button.grid(row=5, column=1)
+    save_button = tk.Button(frame_home, text="Save", command=lambda: update_csv(avg_price,queries))
+    save_button.grid(row=5, column=1)
 
-back_button = tk.Button(frame_display, text="Back", command=lambda: show_frame(frame_home))
-back_button.grid(row=0, column=0)
+    back_button = tk.Button(frame_display, text="Back", command=lambda: show_frame(frame_home))
+    back_button.grid(row=0, column=0)
 
-frame_home.tkraise()
+    frame_home.tkraise()
 
-root.mainloop()
+    root.mainloop()

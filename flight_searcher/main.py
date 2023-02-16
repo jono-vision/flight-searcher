@@ -23,7 +23,7 @@ for row in city_flight_data:
         queries = int(queries) + 1
         flight_data.scrape_flight_info()
         lowest_price = float(flight_data.get_price())
-        new_average = round((average+lowest_price)/queries,3)
+        new_average = round(float(average*(queries-1)/queries+lowest_price/queries),3)
         row = [city, iata_code, desired_price, new_average, queries]
         updated_rows.append(row)
         

@@ -1,28 +1,33 @@
 #! /usr/bin/env python3
 # This file will need to use the DataManager,FlightSearch, FlightData, NotificationManager classes to achieve the program requirements.
-from data_manager import DataManager
 from flight_search import FlightSearch
 from flight_data import FlightData
 from notification_manager import NotificationManager, EmailManager
-import csv_gui
+import csv_gui, csv
 
 DISCOUNT_THRESHOLD = 0.25
 
-data = DataManager()
-
 message_list = []
+updated_rows = []
 rows = csv_gui.read_csv()
-for i, row in enumerate(rows):
+city_flight_data = [[city, iata, desired_price, avg_price, queries] for [_, city, iata, desired_price, avg_price, queries] in rows]
+for row in city_flight_data:
     city, iata_code, desired_price, average, queries = row
+    average = float(average)
+    desired_price = float(desired_price)
     print(city)
     flight_data = FlightData(iata_code, city)
     if flight_data.get_num_results() == 0:
-        continue
+        updated_rows.append(row)
     else:
-        flight_data.scrape_flight_info()
-        lowest_price = flight_data.get_price()
         # increment query count
-        queries += 1
+        queries = int(queries) + 1
+        flight_data.scrape_flight_info()
+        lowest_price = float(flight_data.get_price())
+        new_average = round((average+lowest_price)/queries,3)
+        row = [city, iata_code, desired_price, new_average, queries]
+        updated_rows.append(row)
+        
         if (lowest_price <= desired_price) or (lowest_price <= average*(1-DISCOUNT_THRESHOLD)):
             web_link = flight_data.get_link()
             departure_date = flight_data.get_departure()
@@ -30,6 +35,12 @@ for i, row in enumerate(rows):
             message_list.append(
                 (city, lowest_price, web_link, departure_date, return_date)
             )
+
+
+with open('flight_data.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(updated_rows)
+
 
 if len(message_list) > 0:
     html_deals = NotificationManager(message_list).get_message()

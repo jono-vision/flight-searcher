@@ -15,7 +15,6 @@ for row in city_flight_data:
     city, iata_code, desired_price, average, queries = row
     average = float(average)
     desired_price = float(desired_price)
-    print(city)
     flight_data = FlightData(iata_code, city)
     if flight_data.get_num_results() == 0:
         updated_rows.append(row)

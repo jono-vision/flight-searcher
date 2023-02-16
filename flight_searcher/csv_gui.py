@@ -14,13 +14,14 @@ def _save_to_csv(city, iata_code, desired_price, average, queries):
         writer.writerow([city, iata_code, desired_price, average, queries])
 
 # Add new entry to csv
-def update_csv(row_id, avg_price, queries):
+def update_csv(avg_price, queries):
+    global row_id, iata_code
     city = city_entry.get()
+    desired_price = price_entry.get()
     iata_code = iata_value.get()
     if iata_code == '':
         iata_code = get_iata_code(city)
-    desired_price = price_entry.get()
-    if row_id == '':
+    if row_id == '': # New Entry
         print(f'row id: {row_id}')
         avg_price = 0
         queries = 0
@@ -31,13 +32,17 @@ def update_csv(row_id, avg_price, queries):
         queries = queries
         rows = read_csv()
         del rows[row_id]
+        row_id = ''
+        
         city_flight_data = [[city, iata, desired_price, avg_price, queries] for [_, city, iata, desired_price, avg_price, queries] in rows]
         new_add = [city, iata_code, desired_price, avg_price, queries]
+        iata_code = ''
         city_flight_data.append(new_add)
         with open('flight_data.csv', 'w') as f:
             writer = csv.writer(f)
             writer.writerows(city_flight_data)
-        
+    # reset values
+    
     
     city_entry.delete(0, tk.END)
     iata_value.delete(0, tk.END)
@@ -52,7 +57,7 @@ def read_csv():
     city_flight_list = []
     with open("flight_data.csv") as f:
         reader = csv.reader(f)
-        headers = next(reader)
+        # headers = next(reader)
         for i, row in enumerate(reader):
             city_flight_list.append([i, *row])
     return city_flight_list
@@ -147,7 +152,7 @@ price_entry = tk.Entry(frame_home)
 price_entry.grid(row=4, column=1)
 entry_list.append(price_entry)
 
-save_button = tk.Button(frame_home, text="Save", command=lambda: update_csv(row_id,avg_price,queries))
+save_button = tk.Button(frame_home, text="Save", command=lambda: update_csv(avg_price,queries))
 save_button.grid(row=5, column=1)
 
 back_button = tk.Button(frame_display, text="Back", command=lambda: show_frame(frame_home))

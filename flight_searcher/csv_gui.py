@@ -56,6 +56,19 @@ def show_frame(frame):
     frame_home.grid_forget()
     frame.grid()
 
+# def delete_row(event):
+#     print('Delete')
+#     selected = tree.selection()
+#     for item in selected:
+#         tree.delete(item)
+#     with open('flight_data.csv', 'r') as f:
+#         rows = list(csv.reader(f))
+#     for i, row in enumerate(selected):
+#         del rows[i]
+#     with open('flight_data.csv', 'w', newline='') as f:
+#         writer = csv.writer(f)
+#         writer.writerows(rows)
+
 def display_rows():
     show_frame(frame_display)
     rows = read_csv()
@@ -114,7 +127,8 @@ if __name__ == "__main__":
     tree.grid(row=1, column=0)
 
     tree.bind("<Double-1>", edit_row)
-
+    # Bind right-click event to delete_selected_row function
+    # tree.bind("<BackSpace>", delete_row)
 
     display_button = tk.Button(frame_home, text="Display Rows", command=display_rows)
     display_button.grid(row=0, column=0)

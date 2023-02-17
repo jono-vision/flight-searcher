@@ -27,6 +27,8 @@ parameters = {
     "nights_in_dst_to": 21,
     "partner_market": "ca",
     "max_stopovers": 4,
+    "select_airlines": "F8,WO,Y9",
+    "select_airlines_exclude": "true"
 }
 
 

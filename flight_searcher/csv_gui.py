@@ -16,7 +16,7 @@ def update_csv(avg_price, queries, iata_code):
     if iata_code == '':
         iata_code = get_iata_code(city)
     if row_id == '': # New Entry
-        print(f'row id: {row_id}')
+        # print(f'row id: {row_id}')
         avg_price = 0
         queries = 0
         _save_to_csv(city, iata_code, desired_price, avg_price, queries)

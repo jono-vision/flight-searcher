@@ -1,11 +1,13 @@
 #! /usr/bin/env python3
-# This file will need to use the DataManager,FlightSearch, FlightData, NotificationManager classes to achieve the program requirements.
-from flight_search import FlightSearch
+# This file will need to use the DataManager, FlightData, NotificationManager classes to achieve the program requirements.
 from flight_data import FlightData
 from notification_manager import NotificationManager, EmailManager
-import csv_gui, csv
+import csv_gui, csv, pathlib
 
 DISCOUNT_THRESHOLD = 0.25
+
+# Get the absolute path to the current Python script
+script_path = pathlib.Path(__file__).resolve().parent
 
 message_list = []
 updated_rows = []
@@ -36,7 +38,7 @@ for row in city_flight_data:
             )
 
 
-with open('flight_data.csv', 'w') as f:
+with open(script_path/'flight_data.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(updated_rows)
 

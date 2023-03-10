@@ -3,19 +3,7 @@ from tkinter import ttk
 import csv
 from flight_search import FlightSearch
 from pathlib import Path
-
-def _get_flight_data_filepath():
-    data_filepath = Path(__file__).resolve().parent / 'flight_data.csv'
-    if not data_filepath.is_file():
-        print('No flight data found creating new file')
-        data_filepath.touch()
-    return data_filepath
-
-def _save_to_csv(city, iata_code, desired_price, average, queries):
-    data_path = _get_flight_data_filepath()
-    with open(data_path, "a", newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([city, iata_code, desired_price, average, queries])
+import csv_reader
 
 # Add new entry to csv
 def update_csv(avg_price, queries, iata_code):
@@ -28,7 +16,7 @@ def update_csv(avg_price, queries, iata_code):
         # print(f'row id: {row_id}')
         avg_price = 0
         queries = 0
-        _save_to_csv(city, iata_code, desired_price, avg_price, queries)
+        csv_reader._save_to_csv(city, iata_code, desired_price, avg_price, queries)
     else:
         queries = queries
         rows = read_csv()
@@ -39,7 +27,7 @@ def update_csv(avg_price, queries, iata_code):
         new_add = [city, iata_code, desired_price, avg_price, queries]
         iata_code = ''
         city_flight_data.append(new_add)
-        data_path = _get_flight_data_filepath()
+        data_path = csv_reader._get_flight_data_filepath()
         with open(data_path, 'w') as f:
             writer = csv.writer(f)
             writer.writerows(city_flight_data)
@@ -54,7 +42,7 @@ def get_iata_code(city):
 
 def read_csv():
     city_flight_list = []
-    data_path = _get_flight_data_filepath()
+    data_path = csv_reader._get_flight_data_filepath()
     with open(data_path) as f:
         reader = csv.reader(f)
         # headers = next(reader)

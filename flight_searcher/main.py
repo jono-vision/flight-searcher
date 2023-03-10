@@ -2,16 +2,17 @@
 # This file will need to use the DataManager, FlightData, NotificationManager classes to achieve the program requirements.
 from flight_data import FlightData
 from notification_manager import NotificationManager, EmailManager
-import csv_gui, csv, pathlib
+import csv_reader, csv
+from pathlib import Path
 
 DISCOUNT_THRESHOLD = 0.25
 
 # Get the absolute path to the current Python script
-script_path = pathlib.Path(__file__).resolve().parent
+script_path = Path(__file__).resolve().parent
 
 message_list = []
 updated_rows = []
-rows = csv_gui.read_csv()
+rows = csv_reader.read_csv()
 city_flight_data = [[city, iata, desired_price, avg_price, queries] for [_, city, iata, desired_price, avg_price, queries] in rows]
 for row in city_flight_data:
     city, iata_code, desired_price, average, queries = row

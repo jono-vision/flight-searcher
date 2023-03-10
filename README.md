@@ -8,6 +8,12 @@ This program helps users find flight deals by scraping flight information for de
 
 Make sure Poetry is installed on your computer
 
+```
+git clone https://github.com/jono-vision/flight-searcher.git
+cd flight-searcher
+poetry install
+```
+
 On the `flight_data.py` file you'll want to change the `fly_from` parameter where you enter the IATA code for where you'll be wanting to fly from. It is currently set to "YHZ" (Halifax). In this file you can also see other parameter that could be changed like currency, number of adults and etc...
 
 A kiwi api will need to be obtained from the site https://tequila.kiwi.com/ where you create a solution. You will get an api key where you will then populate `api_key_template.toml` then rename this file to `api_key.toml`

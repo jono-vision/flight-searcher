@@ -40,6 +40,7 @@ class FlightData:
         self.parameters["fly_to"] = self.iata
         self.city = city
         self.results = requests.get(f"{search_url}", headers=headers, params=self.parameters).json()
+        print(self.results)
         # print(f'url:{search_url}\nheaders: {headers}\nparams: {self.parameters}')
         self.num_results = self.results['_results']
 

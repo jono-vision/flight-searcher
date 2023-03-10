@@ -21,6 +21,7 @@ for row in city_flight_data:
     flight_data = FlightData(iata_code, city)
     if flight_data.get_num_results() == 0:
         updated_rows.append(row)
+        print(f'No results found for {city}')
     else:
         # increment query count
         queries = int(queries) + 1
@@ -29,6 +30,7 @@ for row in city_flight_data:
         new_average = round(float(average*(queries-1)/queries+lowest_price/queries),3)
         row = [city, iata_code, desired_price, new_average, queries]
         updated_rows.append(row)
+        print(f'{city} price: ${lowest_price}')
         
         if (lowest_price <= desired_price) or (lowest_price <= average*(1-DISCOUNT_THRESHOLD)):
             web_link = flight_data.get_link()

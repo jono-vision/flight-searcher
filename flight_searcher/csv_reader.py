@@ -9,6 +9,8 @@ def read_csv():
         # headers = next(reader)
         for i, row in enumerate(reader):
             city_flight_list.append([i, *row])
+    if len(city_flight_list)==0:
+        print("Please add entries using the csv_gui file or manually editing the flight_data.csv file")
     return city_flight_list
 
 def _get_flight_data_filepath():
